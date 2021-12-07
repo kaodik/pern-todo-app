@@ -7,12 +7,18 @@ const InputTodo = () => {
     e.preventDefault(); // this line prevents refreashing the page before all actions are complete
     try {
       const body = { description };
-      const response = await fetch("http://localhost:5000/todo", {
+      //proxy is only use in devlopment so it will be ignored in production
+      //so if there is no http://localhost:5000 then by default it is going to use heroku domain
+      //remember this heroku app is just our server serving the build static content and also hodling the restful api
+
+      //https://pern-todo-app.herokuapp.com/todo
+
+      const response = await fetch("/todo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
+      window.location = "/";
       console.log(response);
     } catch (err) {
       console.error(err.message);

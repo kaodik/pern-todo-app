@@ -5,7 +5,10 @@ const EditTodo = ({ todo }) => {
   const editText = async (id) => {
     try {
       const body = { description };
-      const res = await fetch(`http://localhost:5000/todo/${id}`, {
+
+      //proxy
+
+      const res = await fetch(`/todo/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
