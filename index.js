@@ -26,10 +26,14 @@ if (process.env.NODE_ENV === "production") {
 //Get all todos
 app.get("/todo", async (req, res) => {
   try {
-    const allTodos = await pool.query("SELECT * FROM todo");
-    res.json(allTodos.rows);
+    const allTodos = await pool.connect();
+    const result = await allTodos.query("SELECT * FROM todo");
+    const results = { results: result ? result.rows : null };
+    res.json(allTodos.rows, results);
+    allTodos.release();
   } catch (err) {
     console.error(err.message);
+    res.send("error" + err);
   }
 });
 //Get todo
