@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
+import InputTodo from "./components/InputTodo";
+import ListTodos from "./components/ListTodos";
 import "./App.css";
-import InputTodo from "./componets/inputTodo";
-import ListTodos from "./componets/listTodo";
+
 function App() {
   return (
     <Fragment>

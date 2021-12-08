@@ -2,13 +2,14 @@ import React, { Fragment, useState } from "react";
 
 const EditTodo = ({ todo }) => {
   //editText function
+
   const editText = async (id) => {
     try {
       const body = { description };
 
       //proxy
 
-      const res = await fetch(`/todo/${id}`, {
+      const res = await fetch(`/todos/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -19,6 +20,7 @@ const EditTodo = ({ todo }) => {
       console.error(err.message);
     }
   };
+
   const [description, setDescription] = useState(todo.description);
   return (
     <Fragment>
@@ -30,13 +32,16 @@ const EditTodo = ({ todo }) => {
       >
         Edit
       </button>
-      {/* id = "id12" */}
-
-      <div class="modal" id={`id${todo.todo_id}`}>
+      {/* id = "id21"*/}
+      <div
+        class="modal"
+        id={`id${todo.todo_id}`}
+        onClick={() => setDescription(todo.description)}
+      >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Modal Heading</h4>
+              <h4 class="modal-title">Edit Todo</h4>
               <button
                 type="button"
                 class="close"

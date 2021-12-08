@@ -4,19 +4,19 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "14.17.6",
-    "npm": "8.2.0"
+    "node": "10.14.2",
+    "npm": "6.14.2"
   },
   "scripts": {
     "start": "node index.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
-  "author": "",
+  "author": "henry",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "pg": "^8.7.1"
+    "pg": "^7.18.2"
   }
 }

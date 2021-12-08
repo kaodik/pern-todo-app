@@ -8,19 +8,14 @@ require("dotenv").config();
 //   database: process.env.PG_DATABASE,
 //   port: process.env.PG_PORT,
 // };
+
 const devConfig = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
-const proConfig = process.env.DATABASE_URL; //HEROKU ADDON
+
+const proConfig = process.env.DATABASE_URL; //heroku addons
 
 const pool = new Pool({
   connectionString:
     process.env.NODE_ENV === "production" ? proConfig : devConfig,
 });
-// {
-// user: "postgres",
-// password: "",
-// host: "localhost",
-// database: "pernstack",
-// port: 5432,
-// });
 
 module.exports = pool;
