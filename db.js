@@ -17,9 +17,6 @@ const devConfig = {
 const proConfig = {
   connectionString:
     "postgres://taqldwbjguwxid:f0cf26ab7c27ee3469b0b1c2c7f19388bcd2699c0986f91d8def0c499c71df8f@ec2-34-195-69-118.compute-1.amazonaws.com:5432/d31hogbkd10pq2", //heroku addons
-  ssl: {
-    rejectUnauthorized: false,
-  },
 };
 const pool = new Pool(
   process.env.NODE_ENV === "production" ? proConfig : devConfig
