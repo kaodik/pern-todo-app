@@ -13,6 +13,7 @@ app.use(express.json()); // => allow us to acces req.body
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
+console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
   //serve static content
   //npm run build  I need to run this command to make a build folder that will be used as the production
