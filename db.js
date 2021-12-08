@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+const Pool = require("pg").Pool;
 require("dotenv").config();
 
 const devConfig = {
@@ -15,7 +15,7 @@ const devConfig = {
 //const pool = new Pool({connectionString : process.env.NODE_ENV === "production"? proConfig : devConfig});
 
 const proConfig = {
-  connectionString: process.env.DATABASE_URL + "?sslmode=true", //heroku addons
+  connectionString: process.env.DATABASE_URL, //heroku addons
   ssl: {
     rejectUnauthorized: false,
   },
