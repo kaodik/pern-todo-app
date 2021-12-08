@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json()); // => allow us to acces req.body
 
 app.use(express.static(path.join(__dirname, "client/build")));
-
+console.log(process.env.DATABASE_URL);
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
   //serve static content
