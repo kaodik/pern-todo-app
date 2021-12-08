@@ -2,64 +2,52 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
-const path = require("path");
 const PORT = process.env.PORT || 5000;
-
+const path = require("path"); //path is already there allows use to work with directory
 //process.env.PORT
-//process.env.NODE_ENV => production or undefined
+//process.env.NODE_ENV => production or undefined  indecats if app is in production or not
 
 //middleware
 app.use(cors());
-app.use(express.json()); // => allows us to access the req.body
-
-// app.use(express.static(path.join(__dirname, "client/build")));
-// app.use(express.static("./client/build")); => for demonstration
+app.use(express.json()); // => allow us to acces req.body
 
 if (process.env.NODE_ENV === "production") {
-  //server static content
-  //npm run build
+  //serve static content
+  //npm run build  I need to run this command to make a build folder that will be used as the production
+  //the GOAL is the aim to the index.html file
   app.use(express.static(path.join(__dirname, "client/build")));
 }
 
-console.log(__dirname);
-console.log(path.join(__dirname, "client/build"));
-
 //ROUTES//
 
-//get all Todos
-
-app.get("/todos", async (req, res) => {
+//Get all todos
+app.get("/todo", async (req, res) => {
   try {
     const allTodos = await pool.query("SELECT * FROM todo");
-
     res.json(allTodos.rows);
   } catch (err) {
     console.error(err.message);
   }
 });
-
-//get a todo
-
-app.get("/todos/:id", async (req, res) => {
+//Get todo
+app.get("/todo/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [
+    const toDo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [
       id,
     ]);
-    res.json(todo.rows[0]);
+    res.json(toDo.rows[0]);
   } catch (err) {
     console.error(err.message);
   }
 });
-
-//create a todo
-
-app.post("/todos", async (req, res) => {
+//Create todo
+app.post("/todo", async (req, res) => {
   try {
-    console.log(req.body);
+    // test the post with thunder and this line of code  res.json(req.body)
     const { description } = req.body;
     const newTodo = await pool.query(
-      "INSERT INTO todo (description) VALUES ($1) RETURNING *",
+      "INSERT INTO todo(description) VALUES" + "($1) RETURNING *",
       [description]
     );
 
@@ -68,10 +56,8 @@ app.post("/todos", async (req, res) => {
     console.error(err.message);
   }
 });
-
-//update a todo
-
-app.put("/todos/:id", async (req, res) => {
+//Update todo
+app.put("/todo/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { description } = req.body;
@@ -79,16 +65,13 @@ app.put("/todos/:id", async (req, res) => {
       "UPDATE todo SET description = $1 WHERE todo_id = $2",
       [description, id]
     );
-
     res.json("Todo was updated");
   } catch (err) {
     console.error(err.message);
   }
 });
-
-//delete a todo
-
-app.delete("/todos/:id", async (req, res) => {
+//Delete todo
+app.delete("/todo/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1", [
@@ -100,10 +83,11 @@ app.delete("/todos/:id", async (req, res) => {
   }
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
+app.listen(PORT, () => {
+  console.log(`server starting on port ${PORT}`);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is starting on port ${PORT}`);
+//catchAll, serves user a page if the dir not found. this is optional
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
 });
